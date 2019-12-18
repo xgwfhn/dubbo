@@ -1,0 +1,3 @@
+[18/12/19 05:45:46:046 CST] main ERROR server.Server:  [DUBBO] qos-server can not bind localhost:22222, dubbo version: 2.7.3, current host: 169.254.200.229
+java.net.BindException: Address already in use: bind
+由于服务端已经使用22222端口  消费端不能再使用     但是不影响测试
