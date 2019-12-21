@@ -1,0 +1,8 @@
+[21/12/19 05:06:07:007 CST] main ERROR server.Server:  [DUBBO] qos-server can not bind localhost:22222, dubbo version: 2.7.3, current host: 169.254.200.229
+java.net.BindException: Address already in use: bind
+https://blog.csdn.net/u012988901/article/details/84503672
+这个端口是可以在控制台打印的日志中搜索到的
+注意有些版本的key是下面的值   本版本dubbo.2.7.3的key是  qos.port
+<dubbo:parameter key="qos.enable" value="true" />
+<dubbo:parameter key="qos.accept.foreign.ip" value="false" />
+<dubbo:parameter key="dubbo.application.qos.port" value="33333"/>

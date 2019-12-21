@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~
   ~   Licensed to the Apache Software Foundation (ASF) under one or more
   ~   contributor license agreements.  See the NOTICE file distributed with
   ~   this work for additional information regarding copyright ownership.
@@ -15,32 +14,26 @@
   ~   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~   See the License for the specific language governing permissions and
   ~   limitations under the License.
-  ~
   -->
 
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
-       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-    <context:property-placeholder/>
+       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
-    <dubbo:application name="demo-provider">
-    	 <dubbo:parameter key="qos.enable" value="true"/>
+    <!-- consumer's application name, used for tracing dependency relationship (not a matching criterion),
+    don't set it same as provider -->
+    <dubbo:application name="loadBalance-demo-consumer">
+        <dubbo:parameter key="qos.enable" value="true"/>
     	 <dubbo:parameter key="qos.accept.foreign.ip" value="false"/>
    		 <dubbo:parameter key="qos.port" value="55555"/>
-    </dubbo:application>
+     </dubbo:application>
+    <dubbo:registry address="zookeeper://49.233.138.31:2181"/>
 
-    <dubbo:registry address="zookeeper://${zookeeper.address:49.233.138.31}:2181"/>
-
-    <dubbo:protocol name="dubbo" port="20880"/>
-
-    <bean id="groupAService" class="org.apache.dubbo.samples.group.impl.GroupAServiceImpl"/>
-
-    <bean id="groupBService" class="org.apache.dubbo.samples.group.impl.GroupBServiceImpl"/>
-
-    <dubbo:service group="groupA" interface="org.apache.dubbo.samples.group.api.GroupService" ref="groupAService"/>
-
-    <dubbo:service group="groupB" interface="org.apache.dubbo.samples.group.api.GroupService" ref="groupBService"/>
+    <!-- generate proxy for the remote service, then demoService can be used in the same way as the
+    local regular interface -->
+    <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.samples.loadBalance.api.DemoService"
+                          timeout="20000"/>
 
 </beans>
